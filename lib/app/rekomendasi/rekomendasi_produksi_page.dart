@@ -104,15 +104,19 @@ class _RekomendasiProduksiPageState extends State<RekomendasiProduksiPage> {
 
                           String getRecommendEPQ(double penjualanQty,
                               double biayaPerPcs, double production) {
-                            return moneyChanger(
-                                sqrt(((2 *
-                                        penjualanQty *
-                                        (biayaPerPcs * production)) /
-                                    ((1 - (penjualanQty / production)) *
-                                        (biayaPerPcs *
-                                            ((penjualanQty / production) *
-                                                40))))),
-                                customLabel: '');
+                            try {
+                              return moneyChanger(
+                                  sqrt(((2 *
+                                          penjualanQty *
+                                          (biayaPerPcs * production)) /
+                                      ((1 - (penjualanQty / production)) *
+                                          (biayaPerPcs *
+                                              ((penjualanQty / production) *
+                                                  40))))),
+                                  customLabel: '');
+                            } catch (e) {
+                              return '';
+                            }
                           }
 
                           return ListView(
