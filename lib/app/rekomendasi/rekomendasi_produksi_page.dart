@@ -57,10 +57,10 @@ class _RekomendasiProduksiPageState extends State<RekomendasiProduksiPage> {
                           for (var i = 0;
                               i < statePengeluaran.data.length;
                               i++) {
-                            if (stateProduction.data[i].tanggal
-                                .contains(DateTime.now().year.toString())) {
+                            if (statePengeluaran.data[i].tanggal.substring(6) ==
+                                DateTime.now().year.toString()) {
                               if (statePengeluaran.data[i].type == 3) {
-                                int dataMonth = int.parse(stateProduction
+                                int dataMonth = int.parse(statePengeluaran
                                         .data[i].tanggal
                                         .substring(3, 5)) -
                                     1;
@@ -105,17 +105,27 @@ class _RekomendasiProduksiPageState extends State<RekomendasiProduksiPage> {
                           String getRecommendEPQ(double penjualanQty,
                               double biayaPerPcs, double production) {
                             try {
-                              return moneyChanger(
-                                  sqrt(((2 *
-                                          penjualanQty *
-                                          (biayaPerPcs * production)) /
-                                      ((1 - (penjualanQty / production)) *
-                                          (biayaPerPcs *
-                                              ((penjualanQty / production) *
-                                                  40))))),
+                              // return moneyChanger(
+                              //     sqrt(((2 *
+                              //             penjualanQty *
+                              //             (biayaPerPcs * production)) /
+                              //         ((1 - (penjualanQty / production)) *
+                              //             (biayaPerPcs *
+                              //                 ((penjualanQty / production) *
+                              //                     40))))),
+                              //     customLabel: '');
+
+                              double var1 = 2 * penjualanQty * biayaPerPcs;
+                              double var2 = (1 - (penjualanQty / production));
+
+                              var2 = var2 == 0 ? 1 : var2;
+
+                              var2 = var2 * (biayaPerPcs / production);
+
+                              return moneyChanger(sqrt(var1 / var2),
                                   customLabel: '');
                             } catch (e) {
-                              return '';
+                              return '-';
                             }
                           }
 
@@ -346,23 +356,13 @@ class _RekomendasiProduksiPageState extends State<RekomendasiProduksiPage> {
                                                   color: Colors.black12)),
                                           alignment: Alignment.center,
                                           child: Text(
-                                            penjualanTahunan.data[index].y >=
+                                            getRecommendEPQ(
+                                                penjualanTahunan.data[index].y,
+                                                (pengeluaranTahunan
+                                                        .data[index].y /
                                                     produksiTahunan
-                                                        .data[index].y
-                                                ? '-'
-                                                : produksiTahunan
-                                                            .data[index].y ==
-                                                        0
-                                                    ? '0'
-                                                    : getRecommendEPQ(
-                                                        penjualanTahunan
-                                                            .data[index].y,
-                                                        (pengeluaranTahunan
-                                                                .data[index].y /
-                                                            produksiTahunan
-                                                                .data[index].y),
-                                                        produksiTahunan
-                                                            .data[index].y),
+                                                        .data[index].y),
+                                                produksiTahunan.data[index].y),
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Colors.black87,

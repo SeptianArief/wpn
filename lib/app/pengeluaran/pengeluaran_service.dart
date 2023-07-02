@@ -64,9 +64,9 @@ class PengeluaranService {
       final streamSend = await request.send();
       final response = await http.Response.fromStream(streamSend);
 
-      print('--------------response--------------');
-      print(response.body);
-      print('------------------------------------------');
+      // print('--------------response--------------');
+      // print(response.body);
+      // print('------------------------------------------');
 
       if (response.statusCode == 200) {
         if (json.decode(response.body)['status']) {

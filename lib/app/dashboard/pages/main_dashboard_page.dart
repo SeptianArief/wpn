@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dashboard_wpn/app/pengeluaran/pengeluaran_model.dart';
 import 'package:dashboard_wpn/app/production/production_model.dart';
 import 'package:dashboard_wpn/shared/util_cubit/fetch_cubit.dart';
@@ -232,10 +234,12 @@ class _MainDashboardPageState extends State<MainDashboardPage> {
                 for (var i = 0; i < state.data.length; i++) {
                   int dataMonth =
                       int.parse(state.data[i].tanggal.substring(3, 5)) - 1;
-
-                  penjualanTahunan.data[dataMonth].y =
-                      penjualanTahunan.data[dataMonth].y +
-                          double.parse(state.data[i].total);
+                  if (state.data[i].tanggal.substring(6) ==
+                      DateTime.now().year.toString()) {
+                    penjualanTahunan.data[dataMonth].y =
+                        penjualanTahunan.data[dataMonth].y +
+                            double.parse(state.data[i].total);
+                  }
                 }
 
                 return Card(
@@ -271,7 +275,7 @@ class _MainDashboardPageState extends State<MainDashboardPage> {
                 );
               }
 
-              return Text('hmm');
+              return Text('');
             }),
         SizedBox(
           height: 20,
@@ -289,12 +293,15 @@ class _MainDashboardPageState extends State<MainDashboardPage> {
                     ProduksiTahunan.initialState(DateTime.now().year);
 
                 for (var i = 0; i < state.data.length; i++) {
-                  int dataMonth =
-                      int.parse(state.data[i].tanggal.substring(3, 5)) - 1;
+                  if (state.data[i].tanggal.substring(6) ==
+                      DateTime.now().year.toString()) {
+                    int dataMonth =
+                        int.parse(state.data[i].tanggal.substring(3, 5)) - 1;
 
-                  produksiTahunan.data[dataMonth].y =
-                      produksiTahunan.data[dataMonth].y +
-                          double.parse(state.data[i].produksi);
+                    produksiTahunan.data[dataMonth].y =
+                        produksiTahunan.data[dataMonth].y +
+                            double.parse(state.data[i].produksi);
+                  }
                 }
 
                 for (var i = 0; i < totalData; i++) {
